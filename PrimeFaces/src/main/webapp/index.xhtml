@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        Hello from Facelets
+        <p:tabView>
+            <p:tab title="Form">
+                <h:form id="form">
+                    <p:growl id="growl" showDetail="true" sticky="true"></p:growl>
+                    <p:spinner id="number1" value="#{bean.number1}"/>
+                    +
+                    <p:spinner id="number2" value="#{bean.number2}"/>
+                    <p:commandButton value="Calculate"
+                                     actionListener="#{bean.getGrowlMessage()}"
+                                     update="growl result date">
+                    </p:commandButton>
+                    =
+                    <h:outputText id="result" value="#{bean.calculate()}"></h:outputText>
+                    <br/>
+                    <h:outputText id="date" value="#{bean.getCurrentDate()}"/>
+                    <br/>
+                    
+                </h:form>
+            </p:tab>
+            <p:tab title="Table">
+                <h:form>
+                    <p:dataTable value="#{bean.students}" var="student"
+                                 rows="10"
+                                 paginator="true">
+                        <p:column sortBy="name">
+                            <f:facet name="header">Imię</f:facet>
+                            #{student.name}
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:commandLink action="#{bean.sortBySurname}">
+                                    Nazwisko
+                                </h:commandLink>
+                            </f:facet>
+                            #{student.surname}
+                        </p:column>
+
+                        <p:column sortBy="gradesAvg">
+                            <f:facet name="header">
+                                <h:commandLink action="#{bean.sortByGradesAvg}">
+                                    Średnia
+                                </h:commandLink>
+                            </f:facet>
+                            #{student.gradesAvg}
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:tab>
+            <p:tab title="Chart">
+                <h:form>
+                    <p:chart id="chart" type="line" model="#{lineChart.lineChartModel}" 
+                             widgetVar="chart"
+                             style="height:300px;"/>
+                    <p:commandButton type="button" value="Reset" onclick="PF('chart').resetZoom()"/>
+                </h:form>
+            </p:tab>
+        
+            <h:form>
+                <p:spinner id="minMax" min="0" max="42" />
+            </h:form>
+        </p:tabView>
+    </h:body>
+</html>
+
